@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+        - name: jellyfin
+          image: jellyfin/jellyfin:latest
+          ports:
+            - containerPort: 8096
+          env:
+            - name: TZ
+              value: "America/New_York"
+          volumeMounts:
+            - name: jellyfin-config
+              mountPath: /config
+            - name: media-library
+              mountPath: /media
+              subPath: ""
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+      volumes:
+        - name: jellyfin-config
+          persistentVolumeClaim:
+            claimName: jellyfin-config-pvc
+        - name: media-library
+          hostPath:
+            path: /media/HDD
+            type: Directory
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
