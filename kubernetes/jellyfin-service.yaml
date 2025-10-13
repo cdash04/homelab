@@ -10,6 +10,7 @@ spec:
     - name: http
       port: 8096
       targetPort: 8096
+      nodePort: 30001
     - name: https
       port: 8920
       targetPort: 8920
