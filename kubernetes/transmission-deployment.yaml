@@ -23,9 +23,9 @@ spec:
             - containerPort: 51413 # Torrent port (now binds to host)
           env:
             - name: PUID
-              value: "1000"
+              value: "0"
             - name: PGID
-              value: "1000"
+              value: "0"
             - name: TZ
               value: "America/New_York"
             - name: USER
@@ -34,6 +34,9 @@ spec:
               value: "password"
             - name: PEERPORT
               value: "51413" # Explicitly set the torrent port
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: config
               mountPath: /config
