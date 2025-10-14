@@ -17,7 +17,7 @@ spec:
     - host: raspberrypi.local
       http:
         paths:
-          - path: /jellyfin(/|$)(.*)
+          - path: /jellyfin
             pathType: Prefix
             backend:
               service:
