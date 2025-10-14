@@ -14,7 +14,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: jellyfin.internal
+      http:
         paths:
           - path: /jellyfin
             pathType: Prefix
