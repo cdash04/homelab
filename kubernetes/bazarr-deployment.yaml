@@ -49,5 +49,5 @@ spec:
   ports:
     - port: 6767
       targetPort: 6767
-      nodePort: 30005
+      nodePort: 30006
   type: NodePort
