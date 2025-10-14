@@ -27,14 +27,6 @@ spec:
               value: "1000"
             - name: TZ
               value: "America/New_York"
-            - name: WEBUI_PORT
-              value: "8080"
-            - name: WEBUI_AUTH
-              value: "false"
-            - name: WEBUI_CSRFPROTECTION
-              value: "false"
-            - name: WEBUI_HOSTHEADERVALIDATION
-              value: "false"
           volumeMounts:
             - name: config
               mountPath: /config
