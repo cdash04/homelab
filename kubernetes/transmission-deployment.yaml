@@ -13,12 +13,14 @@ spec:
       labels:
         app: transmission
     spec:
+      hostNetwork: true
+      hostPID: true
       containers:
         - name: transmission
           image: lscr.io/linuxserver/transmission:latest
           ports:
             - containerPort: 9091 # Web UI
-            - containerPort: 51413 # Torrent port
+            - containerPort: 51413 # Torrent port (now binds to host)
           env:
             - name: PUID
               value: "1000"
@@ -27,9 +29,11 @@ spec:
             - name: TZ
               value: "America/New_York"
             - name: USER
-              value: "admin" # Web UI username
+              value: "admin"
             - name: PASS
-              value: "password" # Web UI password
+              value: "password"
+            - name: PEERPORT
+              value: "51413" # Explicitly set the torrent port
           volumeMounts:
             - name: config
               mountPath: /config
@@ -37,13 +41,6 @@ spec:
               mountPath: /downloads
             - name: watch
               mountPath: /watch
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
-              memory: "256Mi"
-              cpu: "500m"
       volumes:
         - name: config
           persistentVolumeClaim:
@@ -68,8 +65,4 @@ spec:
       port: 9091
       targetPort: 9091
       nodePort: 30004
-    - name: torrent
-      port: 51413
-      targetPort: 51413
-      nodePort: 30005
   type: NodePort
