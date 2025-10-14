@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+        - name: transmission
+          image: lscr.io/linuxserver/transmission:latest
+          ports:
+            - containerPort: 9091 # Web UI
+            - containerPort: 51413 # Torrent port
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/New_York"
+            - name: USER
+              value: "admin" # Web UI username
+            - name: PASS
+              value: "password" # Web UI password
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+            - name: watch
+              mountPath: /watch
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: transmission-config-pvc
+        - name: downloads
+          hostPath:
+            path: /media/HDD/downloads
+        - name: watch
+          hostPath:
+            path: /media/HDD/watch
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transmission-service
+  namespace: media
+spec:
+  selector:
+    app: transmission
+  ports:
+    - name: web
+      port: 9091
+      targetPort: 9091
+      nodePort: 30004
+    - name: torrent
+      port: 51413
+      targetPort: 51413
+      nodePort: 30005
+  type: NodePort
