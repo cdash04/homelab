@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: qbittorrent-config-pvc
+  name: transmission-config-pvc
   namespace: media
 spec:
   accessModes:
