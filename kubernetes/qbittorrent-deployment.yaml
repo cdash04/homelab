@@ -54,7 +54,7 @@ spec:
     - name: web
       port: 8080
       targetPort: 8080
-      nodePort: 8080
+      nodePort: 30004
     - name: torrent
       port: 6881
       targetPort: 6881
