@@ -8,13 +8,16 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
 spec:
   ingressClassName: nginx
   rules:
-    - host: jellyfin.raspberrypi.local
+    - host: raspberrypi.local
       http:
         paths:
-          - path: /
+          - path: /jellyfin(/|$)(.*)
             pathType: Prefix
             backend:
               service:
