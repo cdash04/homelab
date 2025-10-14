@@ -17,8 +17,8 @@ kubectl apply -f bazarr-deployment.yaml
 
 echo "Media stack deployed!"
 echo "Access URLs:"
-echo "Jellyfin: http://192.168.18.12:30001"
-echo "Radarr:   http://192.168.18.12:30002"
-echo "Sonarr:   http://192.168.18.12:30003"
-echo "qBittorrent: http://192.168.18.12:30004"
-echo "Bazarr:   http://192.168.18.12:30005"
+echo "Jellyfin: http://raspberrypi.local:30001"
+echo "Radarr:   http://raspberrypi.local:30002"
+echo "Sonarr:   http://raspberrypi.local:30003"
+echo "qBittorrent: http://raspberrypi.local:30004"
+echo "Bazarr:   http://raspberrypi.local:30005"
