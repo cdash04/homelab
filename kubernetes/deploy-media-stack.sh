@@ -14,6 +14,7 @@ kubectl apply -f transmission-deployment.yaml
 kubectl apply -f sonarr-deployment.yaml
 kubectl apply -f radarr-deployment.yaml
 kubectl apply -f bazarr-deployment.yaml
+kubectl apply -f jackett-deployment.yaml
 
 echo "Media stack deployed!"
 echo "Access URLs:"
@@ -22,3 +23,4 @@ echo "Radarr:   http://raspberrypi.local:30002"
 echo "Sonarr:   http://raspberrypi.local:30003"
 echo "transmission: http://raspberrypi.local:30004"
 echo "Bazarr:   http://raspberrypi.local:30006"
+echo "Jackett:   http://raspberrypi.local:30007"
