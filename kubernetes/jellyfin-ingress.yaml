@@ -10,13 +10,13 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-    - host: jellyfin.lan
-      http:
+    - http:
         paths:
-          - path: /
+          - path: /jellyfin
             pathType: Prefix
             backend:
               service:
