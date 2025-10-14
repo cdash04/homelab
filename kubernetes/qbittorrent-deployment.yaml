@@ -29,6 +29,8 @@ spec:
               value: "America/New_York"
             - name: WEBUI_PORT
               value: "8080"
+            - name: WEBUI_AUTH
+              value: "false"
           volumeMounts:
             - name: config
               mountPath: /config
