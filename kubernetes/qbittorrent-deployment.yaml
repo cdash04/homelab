@@ -31,9 +31,9 @@ spec:
               value: "8080"
             - name: WEBUI_AUTH
               value: "false"
-            - name: CSRFPROTECTION
+            - name: WEBUI_CSRFPROTECTION
               value: "false"
-            - name: HOSTHEADERVALIDATION
+            - name: WEBUI_HOSTHEADERVALIDATION
               value: "false"
           volumeMounts:
             - name: config
