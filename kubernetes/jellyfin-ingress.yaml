@@ -15,13 +15,12 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: raspberrypi.local
-      http:
-        paths:
-          - path: /jellyfin
-            pathType: Prefix
-            backend:
-              service:
-                name: jellyfin-service
-                port:
-                  number: 8096
+    - http:
+      paths:
+        - path: /jellyfin
+          pathType: Prefix
+          backend:
+            service:
+              name: jellyfin-service
+              port:
+                number: 8096
