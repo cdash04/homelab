@@ -31,6 +31,12 @@ spec:
               value: "8080"
             - name: WEBUI_AUTH
               value: "false"
+            - name: WEBUI_CSRF_PROTECTION
+              value: "false"
+            - name: WEBUI_HOST_HEADER_VALIDATION
+              value: "false"
+            - name: WEBUI_CLICKJACKING_PROTECTION
+              value: "false"
           volumeMounts:
             - name: config
               mountPath: /config
