@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
 spec:
   rules:
-    - host: raspberrypi.local
+    - host: jellyfin.local
       http:
         paths:
           - path: /
