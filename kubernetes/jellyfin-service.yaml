@@ -13,4 +13,5 @@ spec:
     - name: https
       port: 8920
       targetPort: 8920
-  type: ClusterIP
+      nodePort: 30001
+  type: NodePort
