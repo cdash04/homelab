@@ -30,6 +30,10 @@ spec:
               mountPath: /config
             - name: media
               mountPath: /media
+            - name: movies
+              mountPath: /movies
+            - name: downloads
+              mountPath: /downloads
       volumes:
         - name: config
           persistentVolumeClaim:
@@ -37,6 +41,12 @@ spec:
         - name: media
           hostPath:
             path: /media/HDD
+        - name: movies
+          hostPath:
+            path: /media/HDD/movies
+        - name: downloads
+          hostPath:
+            path: /media/HDD/downloads
 ---
 apiVersion: v1
 kind: Service
