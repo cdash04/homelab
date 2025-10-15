@@ -32,6 +32,8 @@ spec:
               mountPath: /media
             - name: tv
               mountPath: /tv
+            - name: downloads
+              mountPath: /downloads
       volumes:
         - name: config
           persistentVolumeClaim:
@@ -42,6 +44,9 @@ spec:
         - name: tv
           hostPath:
             path: /media/HDD/shows
+        - name: downloads
+          hostPath:
+            path: /media/HDD/downloads
 ---
 apiVersion: v1
 kind: Service
