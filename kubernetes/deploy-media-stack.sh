@@ -16,6 +16,16 @@ kubectl apply -f radarr-deployment.yaml
 kubectl apply -f bazarr-deployment.yaml
 kubectl apply -f jackett-deployment.yaml
 
+# Deploy secrets
+secrets_file="/secrets/jellyseer-secrets.yaml"
+if test -e "$file_name"; then
+    echo "$file_name file exists."
+    kubectl apply -f "$file_name"
+fi
+
+# Deploy jellyseer
+kubectl apply -f jellyseer-deployment.yaml
+
 echo "Media stack deployed!"
 echo "Access URLs:"
 echo "Jellyfin: http://raspberrypi.local:30001"
@@ -24,3 +34,4 @@ echo "Sonarr:   http://raspberrypi.local:30003"
 echo "transmission: http://raspberrypi.local:30004"
 echo "Bazarr:   http://raspberrypi.local:30006"
 echo "Jackett:   http://raspberrypi.local:30007"
+echo "jellyseer:   http://raspberrypi.local:30008"
