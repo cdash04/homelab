@@ -18,13 +18,14 @@ kubectl apply -f jackett-deployment.yaml
 
 # Deploy secrets
 secrets_file="/secrets/jellyseer-secrets.yaml"
-if test -e "$file_name"; then
-    echo "$file_name file exists."
-    kubectl apply -f "$file_name"
+if test -e "$secrets_file"; then
+    echo "$secrets_file file exists."
+    kubectl apply -f "$secrets_file"
+
+    # Deploy jellyseer
+    kubectl apply -f jellyseer-deployment.yaml
 fi
 
-# Deploy jellyseer
-kubectl apply -f jellyseer-deployment.yaml
 
 echo "Media stack deployed!"
 echo "Access URLs:"
