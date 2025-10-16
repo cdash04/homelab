@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: media-ingress
   namespace: media
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
     - http:
