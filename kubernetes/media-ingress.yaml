@@ -1,25 +1,111 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: media-ingress
   namespace: media
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/proxy-buffering: "off"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: nginx
-  rules:
-    - http:
-        paths:
-          - path: /jellyfin
-            pathType: Prefix
-            backend:
-              service:
-                name: jellyfin-service
-                port:
-                  number: 8096
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/jellyfin`)
+      kind: Rule
+      services:
+        - name: jellyfin-service
+          port: 8096
+      middlewares:
+        - name: strip-jellyfin
+    - match: PathPrefix(`/sonarr`)
+      kind: Rule
+      services:
+        - name: sonarr-service
+          port: 8989
+      middlewares:
+        - name: strip-sonarr
+    - match: PathPrefix(`/radarr`)
+      kind: Rule
+      services:
+        - name: radarr-service
+          port: 7878
+      middlewares:
+        - name: strip-radarr
+    - match: PathPrefix(`/transmission`)
+      kind: Rule
+      services:
+        - name: transmission-service
+          port: 9091
+      middlewares:
+        - name: strip-transmission
+    - match: PathPrefix(`/jackett`)
+      kind: Rule
+      services:
+        - name: jackett-service
+          port: 9117
+      middlewares:
+        - name: strip-jackett
+    - match: PathPrefix(`/jellyseerr`)
+      kind: Rule
+      services:
+        - name: jellyseerr-service
+          port: 5055
+      middlewares:
+        - name: strip-jellyseerr
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-jellyfin
+  namespace: media
+spec:
+  stripPrefix:
+    prefixes:
+      - "/jellyfin"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-sonarr
+  namespace: media
+spec:
+  stripPrefix:
+    prefixes:
+      - "/sonarr"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-radarr
+  namespace: media
+spec:
+  stripPrefix:
+    prefixes:
+      - "/radarr"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-transmission
+  namespace: media
+spec:
+  stripPrefix:
+    prefixes:
+      - "/transmission"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-jackett
+  namespace: media
+spec:
+  stripPrefix:
+    prefixes:
+      - "/jackett"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-jellyseerr
+  namespace: media
+spec:
+  stripPrefix:
+    prefixes:
+      - "/jellyseerr"
