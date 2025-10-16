@@ -8,8 +8,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: 192.168.18.12 # Add your static IP as host
-      http:
+    - http:
         paths:
           - path: /jellyfin
             pathType: Prefix
