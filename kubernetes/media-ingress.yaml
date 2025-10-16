@@ -54,18 +54,3 @@ spec:
                 name: jellyseerr-service
                 port:
                   number: 5055
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: strip-prefix
-  namespace: media
-spec:
-  stripPrefix:
-    prefixes:
-      - "/jellyfin"
-      - "/sonarr"
-      - "/radarr"
-      - "/transmission"
-      - "/jackett"
-      - "/jellyseerr"
