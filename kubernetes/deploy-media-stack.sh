@@ -26,6 +26,9 @@ if test -e "$secrets_file"; then
     kubectl apply -f jellyseer-deployment.yaml
 fi
 
+# Deploy ingress
+
+kubectl apply -f media-ingress.yaml
 
 echo "Media stack deployed!"
 echo "Access URLs:"
