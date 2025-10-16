@@ -1,26 +1,71 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: media-ingress
   namespace: media
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # Add strip prefix middleware for path rewriting
+    traefik.ingress.kubernetes.io/router.middlewares: media-strip-prefix@kubernetescrd
 spec:
-  entryPoints:
-    - web
-  routes:
-    - match: PathPrefix(`/jellyfin`)
-      kind: Rule
-      services:
-        - name: jellyfin-service
-          port: 8096
-      middlewares:
-        - name: jellyfin-stripprefix
+  ingressClassName: traefik
+  rules:
+    - http:
+        paths:
+          - path: /jellyfin
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyfin-service
+                port:
+                  number: 8096
+          - path: /sonarr
+            pathType: Prefix
+            backend:
+              service:
+                name: sonarr-service
+                port:
+                  number: 8989
+          - path: /radarr
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr-service
+                port:
+                  number: 7878
+          - path: /transmission
+            pathType: Prefix
+            backend:
+              service:
+                name: transmission-service
+                port:
+                  number: 9091
+          - path: /jackett
+            pathType: Prefix
+            backend:
+              service:
+                name: jackett-service
+                port:
+                  number: 9117
+          - path: /jellyseerr
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyseerr-service
+                port:
+                  number: 5055
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: jellyfin-stripprefix
+  name: strip-prefix
   namespace: media
 spec:
   stripPrefix:
     prefixes:
       - "/jellyfin"
+      - "/sonarr"
+      - "/radarr"
+      - "/transmission"
+      - "/jackett"
+      - "/jellyseerr"
