@@ -17,7 +17,7 @@ kubectl apply -f bazarr-deployment.yaml
 kubectl apply -f jackett-deployment.yaml
 
 # Deploy secrets
-secrets_file="/secrets/jellyseer-secrets.yaml"
+secrets_file="./secrets/jellyseer-secrets.yaml"
 if test -e "$secrets_file"; then
     echo "$secrets_file file exists."
     kubectl apply -f "$secrets_file"
