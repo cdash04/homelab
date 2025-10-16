@@ -37,18 +37,18 @@ spec:
             - name: SONARR_HOST
               value: "http://sonarr-service.media.svc.cluster.local:8989"
             - name: SONARR_API_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: jellyseerr-secrets
-                    key: sonarr-api-key
+              valueFrom:
+                secretKeyRef:
+                  name: jellyseerr-secrets
+                  key: sonarr-api-key
             # radarr setup
             - name: RADARR_HOST
               value: "http://radarr-service.media.svc.cluster.local:7878"
             - name: RADARR_API_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: jellyseerr-secrets
-                    key: radarr-api-key
+              valueFrom:
+                secretKeyRef:
+                  name: jellyseerr-secrets
+                  key: radarr-api-key
           volumeMounts:
             - name: config
               mountPath: /app/config
