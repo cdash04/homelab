@@ -4,8 +4,6 @@ metadata:
   name: media-ingress
   namespace: media
 spec:
-  entryPoints:
-    - web
   rules:
     - http:
         paths:
