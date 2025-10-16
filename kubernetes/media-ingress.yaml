@@ -4,8 +4,15 @@ metadata:
   name: media-ingress
   namespace: media
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
     - http:
         paths:
@@ -16,38 +23,3 @@ spec:
                 name: jellyfin-service
                 port:
                   number: 8096
-          - path: /sonarr
-            pathType: Prefix
-            backend:
-              service:
-                name: sonarr-service
-                port:
-                  number: 8989
-          - path: /radarr
-            pathType: Prefix
-            backend:
-              service:
-                name: radarr-service
-                port:
-                  number: 7878
-          - path: /transmission
-            pathType: Prefix
-            backend:
-              service:
-                name: transmission-service
-                port:
-                  number: 9091
-          - path: /jackett
-            pathType: Prefix
-            backend:
-              service:
-                name: jackett-service
-                port:
-                  number: 9117
-          - path: /jellyseerr
-            pathType: Prefix
-            backend:
-              service:
-                name: jellyseerr-service
-                port:
-                  number: 5055
