@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+        - name: jellyfin
+          image: jellyfin/jellyfin:latest
+          ports:
+            - containerPort: 8096
+            - containerPort: 8920
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/New_York"
+            - name: DOCKER_MODS
+              value: "linuxserver/mods:jellyfin-arm64v8"
+          volumeMounts:
+            - name: jellyfin-config
+              mountPath: /config
+            - name: media-library
+              mountPath: /media
+              subPath: ""
+            - name: dev-dri
+              mountPath: /dev/dri
+            - name: transcode
+              mountPath: /config/transcodes
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          securityContext:
+            privileged: true
+            runAsUser: 1000
+            runAsGroup: 1000
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8096
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8096
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /web/index.html
+              port: 8096
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: jellyfin-config
+          persistentVolumeClaim:
+            claimName: jellyfin-config-pvc
+        - name: transcode
+          persistentVolumeClaim:
+            claimName: jellyfin-transcode-pvc
+        - name: media-library
+          hostPath:
+            path: /media/HDD
+            type: Directory
+        - name: dev-dri
+          hostPath:
+            path: /dev/dri
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
