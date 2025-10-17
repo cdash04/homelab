@@ -15,6 +15,7 @@ kubectl apply -f sonarr-deployment.yaml
 kubectl apply -f radarr-deployment.yaml
 kubectl apply -f bazarr-deployment.yaml
 kubectl apply -f jackett-deployment.yaml
+kubectl apply -f lidarr-deployment.yaml
 
 # Deploy secrets
 secrets_file="./secrets/jellyseer-secrets.yaml"
@@ -39,3 +40,4 @@ echo "transmission: http://raspberrypi.local/transmission"
 echo "Bazarr:   http://raspberrypi.local/bazarr"
 echo "Jackett:   http://raspberrypi.local/jackett"
 echo "jellyseer:   http://raspberrypi.local/jellyseer"
+echo "lidarr:   http://raspberrypi.local:30009"
