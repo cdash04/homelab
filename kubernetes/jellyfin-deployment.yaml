@@ -36,6 +36,8 @@ spec:
               subPath: ""
             - name: dev-dri
               mountPath: /dev/dri
+            - name: transcode
+              mountPath: /config/transcodes
           resources:
             requests:
               memory: "512Mi"
@@ -47,10 +49,35 @@ spec:
             privileged: true
             runAsUser: 1000
             runAsGroup: 1000
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8096
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8096
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /web/index.html
+              port: 8096
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
       volumes:
         - name: jellyfin-config
           persistentVolumeClaim:
             claimName: jellyfin-config-pvc
+        - name: transcode
+          persistentVolumeClaim:
+            claimName: jellyfin-transcode-pvc
         - name: media-library
           hostPath:
             path: /media/HDD
