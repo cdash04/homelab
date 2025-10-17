@@ -44,6 +44,7 @@ spec:
               memory: "2Gi"
               cpu: "1000m"
           securityContext:
+            privileged: true
             runAsUser: 1000
             runAsGroup: 1000
       volumes:
@@ -58,7 +59,6 @@ spec:
           hostPath:
             path: /dev/dri
       securityContext:
-        privileged: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
