@@ -36,6 +36,13 @@ spec:
                 name: radarr-service
                 port:
                   number: 7878
+          - path: /lidarr
+            pathType: Prefix
+            backend:
+              service:
+                name: lidarr-service
+                port:
+                  number: 8686
           - path: /transmission
             pathType: Prefix
             backend:
