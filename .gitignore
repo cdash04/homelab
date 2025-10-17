@@ -1,2 +1,4 @@
 *-secrets.yaml
 secrets/
+
+.DS_Store
