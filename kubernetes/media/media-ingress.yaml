@@ -71,14 +71,15 @@ metadata:
   name: jellyseerr-ingress
   namespace: media
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
 spec:
   ingressClassName: nginx
   rules:
-    - host: jellyseerr.raspberrypi.local
-      http:
+    - http:
         paths:
-          - path: /
+          - path: /jellyseerr(/|$)(.*)
             pathType: Prefix
             backend:
               service:
