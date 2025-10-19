@@ -49,6 +49,18 @@ spec:
                 secretKeyRef:
                   name: jellyseerr-secrets
                   key: radarr-api-key
+          livenessProbe:
+            httpGet:
+              path: /api/v1/status
+              port: 5055
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/v1/status
+              port: 5055
+            initialDelaySeconds: 30
+            periodSeconds: 20
           volumeMounts:
             - name: config
               mountPath: /app/config
