@@ -28,9 +28,15 @@ spec:
             - name: TZ
               value: "America/New_York"
             - name: USER
-              value: "admin"
+              valueFrom:
+                secretKeyRef:
+                  name: transmission-secrets
+                  key: user
             - name: PASS
-              value: "password"
+              valueFrom:
+                secretKeyRef:
+                  name: transmission-secrets
+                  key: password
             - name: PEERPORT
               value: "51413"
           securityContext:
