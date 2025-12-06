@@ -27,12 +27,6 @@ spec:
             - --namespace=kubernetes-dashboard
             - --enable-skip-login
             - --enable-insecure-login
-          volumeMounts:
-            - name: kubernetes-dashboard-certs
-              mountPath: /certs
-              # Create on-disk location to store certs
-            - mountPath: /tmp
-              name: tmp-volume
           livenessProbe:
             httpGet:
               scheme: HTTPS
@@ -52,12 +46,6 @@ spec:
             limits:
               cpu: 100m
               memory: 200Mi
-      volumes:
-        - name: kubernetes-dashboard-certs
-          secret:
-            secretName: kubernetes-dashboard-certs
-        - name: tmp-volume
-          emptyDir: {}
       serviceAccountName: kubernetes-dashboard
       securityContext:
         seccompProfile:
