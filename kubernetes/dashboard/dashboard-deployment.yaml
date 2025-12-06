@@ -16,6 +16,7 @@ spec:
       labels:
         k8s-app: kubernetes-dashboard
     spec:
+      serviceAccountName: kubernetes-dashboard
       containers:
         - name: kubernetes-dashboard
           image: kubernetesui/dashboard:v2.7.0
@@ -25,8 +26,6 @@ spec:
           args:
             - --auto-generate-certificates
             - --namespace=kubernetes-dashboard
-            - --enable-skip-login
-            - --enable-insecure-login
           livenessProbe:
             httpGet:
               scheme: HTTPS
@@ -39,6 +38,9 @@ spec:
             readOnlyRootFilesystem: true
             runAsUser: 1001
             runAsGroup: 2001
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
           resources:
             requests:
               cpu: 50m
@@ -46,7 +48,9 @@ spec:
             limits:
               cpu: 100m
               memory: 200Mi
-      serviceAccountName: kubernetes-dashboard
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
       securityContext:
         seccompProfile:
           type: RuntimeDefault
@@ -64,4 +68,4 @@ spec:
       targetPort: 8443
   selector:
     k8s-app: kubernetes-dashboard
-  type: NodePort # Use NodePort to access externally
+  type: NodePort
