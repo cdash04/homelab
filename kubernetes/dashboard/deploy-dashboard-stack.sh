@@ -7,6 +7,34 @@ echo "Deploying Kubernetes Dashboard stack..."
 echo "Creating namespace..."
 kubectl apply -f namespace.yaml
 
+# Create TLS certificate
+echo "Checking for TLS certificate secret"
+if ! kubectl get secret -n kubernetes-dashboard kubernetes-dashboard-certs &>/dev/null; then
+    echo "Creating self-signed TLS certificate"
+
+    TEMP_DIR=$(mktemp -d)
+    cd "$TEMP_DIR"
+    
+    # Generate self-signed certificate
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+      -keyout dashboard.key \
+      -out dashboard.crt \
+      -subj "/CN=kubernetes-dashboard" 2>/dev/null
+    
+    # Create Kubernetes secret
+    kubectl create secret tls kubernetes-dashboard-certs \
+      --namespace kubernetes-dashboard \
+      --key dashboard.key \
+      --cert dashboard.crt
+
+    cd -
+    rm -rf "$TEMP_DIR"
+    
+    echo "TLS certificate secret created."
+else
+    echo "TLS certificate secret already exists."
+fi
+
 # Deploy RBAC (needed before deployment)
 echo "Deploying RBAC configuration..."
 kubectl apply -f dashboard-rbac.yaml
