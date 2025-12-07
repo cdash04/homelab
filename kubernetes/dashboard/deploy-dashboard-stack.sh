@@ -43,6 +43,9 @@ else
     kubectl logs -n kubernetes-dashboard -l k8s-app=kubernetes-dashboard --tail=20
 fi
 
+echo "Deploying api service"
+kubectl apply -f apiregistration.yaml
+
 # Deploy metrics server
 echo "Deploying metrics server"
 kubectl apply -f metrics-deployment.yaml
