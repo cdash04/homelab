@@ -95,8 +95,7 @@ metadata:
     k8s-app: metrics-server
 spec:
   selector:
-    matchLabels:
-      k8s-app: metrics-server
+    k8s-app: metrics-server
   ports:
     - port: 443
       protocol: TCP
