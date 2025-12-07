@@ -72,6 +72,12 @@ spec:
             - --kubelet-use-node-status-port
             - --metric-resolution=15s
             - --kubelet-insecure-tls
+          ports:
+            - name: main-port
+              containerPort: 4443
+              protocol: TCP
+          securityContext:
+            readOnlyRootFilesystem: false
           resources:
             requests:
               cpu: "50m"
