@@ -27,6 +27,7 @@ spec:
             - --auto-generate-certificates
             - --namespace=kubernetes-dashboard
             - --enable-skip-login
+            - --enable-insecure-login
           livenessProbe:
             httpGet:
               scheme: HTTPS
@@ -49,6 +50,28 @@ spec:
             limits:
               cpu: 100m
               memory: 200Mi
+        - name: dashboard-metrics-scraper
+          image: kubernetesui/metrics-scraper:v1.0.9
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+          resources:
+            requests:
+              cpu: "5m"
+              memory: "20Mi"
+            limits:
+              cpu: "30m"
+              memory: "50Mi"
       volumes:
         - name: tmp-volume
           emptyDir: {}
