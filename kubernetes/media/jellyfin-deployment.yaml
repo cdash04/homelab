@@ -38,9 +38,12 @@ spec:
               mountPath: /dev/dri
             - name: transcode
               mountPath: /config/transcodes
+            - name: host-dev
+              mountPath: /host-dev
+              readOnly: true
           resources:
             requests:
-              memory: "512Mi"
+              memory: "1Gi"
               cpu: "250m"
             limits:
               memory: "2Gi"
@@ -85,6 +88,10 @@ spec:
         - name: dev-dri
           hostPath:
             path: /dev/dri
+        - name: host-dev
+          hostPath:
+            path: /dev
+            type: Directory
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
